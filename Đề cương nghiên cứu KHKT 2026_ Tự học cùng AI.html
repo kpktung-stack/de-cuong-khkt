@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Phát triển kỹ năng tự học của học sinh Trung học nhờ ứng dụng AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lexend:wght@500;700&display=swap">
+<style>
+:root{
+  --paper:#eef3f8; --card:#ffffff; --ink:#14263d; --muted:#53647a; --line:#c9d6e4;
+  --accent:#1f5fbf; --mark:#ffe36e; --mark-ink:#14263d;
+  --grid:rgba(31,95,191,.07);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0f1b2b; --card:#16263a; --ink:#e8eef6; --muted:#9db0c6; --line:#2b4058;
+    --accent:#7db2ff; --mark:#e7c94a; --mark-ink:#0f1b2b; --grid:rgba(125,178,255,.07);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0f1b2b; --card:#16263a; --ink:#e8eef6; --muted:#9db0c6; --line:#2b4058;
+  --accent:#7db2ff; --mark:#e7c94a; --mark-ink:#0f1b2b; --grid:rgba(125,178,255,.07);
+  color-scheme:dark;
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.7 "Be Vietnam Pro",system-ui,sans-serif;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px}
+h1,h2,h3{font-family:Lexend,"Be Vietnam Pro",sans-serif;line-height:1.25;margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+header.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line);
+  padding:calc(env(safe-area-inset-top,0px) + 10px) 20px 10px;display:flex;gap:16px;align-items:center;justify-content:space-between}
+header.top b{font:700 .95rem Lexend,sans-serif}
+header.top span{color:var(--muted);font-size:.85rem}
+.theme{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:.85rem;cursor:pointer}
+
+.hero{max-width:1040px;margin:0 auto;padding:64px 20px 40px}
+.hero p.k{margin:0 0 14px;color:var(--muted);font-weight:500}
+.hero h1{font-size:clamp(1.9rem,5vw,3.4rem);font-weight:700;max-width:18em}
+.hero h1 mark{background:linear-gradient(transparent 55%,var(--mark) 55%);color:inherit;padding:0 .1em}
+.question{margin:36px 0 0;max-width:40em;padding:18px 22px;background:var(--card);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;font-size:1.1rem}
+.question small{display:block;color:var(--muted);margin-top:6px;font-size:.88rem}
+
+.layout{max-width:1040px;margin:0 auto;padding:0 20px 80px;display:grid;grid-template-columns:210px 1fr;gap:48px}
+nav.toc{position:sticky;top:80px;align-self:start;font-size:.92rem}
+nav.toc a{display:block;padding:6px 12px;border-left:3px solid var(--line);color:var(--muted);text-decoration:none}
+nav.toc a:hover,nav.toc a.on{border-left-color:var(--accent);color:var(--ink);font-weight:600}
+@media (max-width:820px){
+  .layout{grid-template-columns:1fr;gap:0}
+  nav.toc{position:static;display:flex;gap:8px;overflow-x:auto;padding-bottom:16px;margin-bottom:8px}
+  nav.toc a{border:1px solid var(--line);border-radius:999px;white-space:nowrap;background:var(--card)}
+  .hero{padding-top:40px}
+}
+
+section.part{margin-bottom:64px}
+section.part>h2{font-size:1.7rem;margin-bottom:6px}
+section.part>.sub{color:var(--muted);margin:0 0 28px}
+.item{margin:0 0 28px}
+.item h3{font-size:1.1rem;margin-bottom:8px;color:var(--accent)}
+.item p{margin:0 0 12px;max-width:68ch}
+.hyp{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.hyp li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;max-width:68ch}
+.hyp li b{display:block;font-family:Lexend,sans-serif;font-size:.95rem;margin-bottom:2px}
+.scope{margin:0;padding:0;list-style:none;max-width:68ch}
+.scope li{padding:8px 0;border-bottom:1px solid var(--line)}
+.scope li b{display:inline-block;min-width:7.5em}
+.blank{background:var(--mark);color:var(--mark-ink);padding:0 .3em;border-radius:3px;font-size:.95em}
+.methods{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.methods div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.methods b{display:block;font-family:Lexend,sans-serif;font-size:.95rem;margin-bottom:6px}
+.methods p{margin:0;font-size:.95rem;color:var(--muted)}
+
+/* timeline: genuinely a sequence */
+ol.weeks{list-style:none;margin:0;padding:0 0 0 22px;border-left:3px solid var(--line)}
+ol.weeks li{position:relative;margin:0 0 10px}
+ol.weeks li::before{content:"";position:absolute;left:-31px;top:18px;width:15px;height:15px;border-radius:50%;background:var(--paper);border:3px solid var(--accent)}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px}
+details[open]{border-color:var(--accent)}
+summary{cursor:pointer;padding:12px 18px;list-style:none;display:flex;gap:14px;align-items:baseline}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;color:var(--accent);font-weight:700;font-size:1.2rem}
+details[open]>summary::after{content:"–"}
+summary .w{font:700 .9rem Lexend,sans-serif;color:var(--accent);min-width:5em}
+summary .t{font-weight:600}
+details ul{margin:0;padding:0 18px 14px 38px;color:var(--muted)}
+details ul li{margin:4px 0}
+
+.outline details{margin-bottom:10px}
+.outline summary .t{font-family:Lexend,sans-serif;font-size:1rem}
+.outline ul{color:var(--ink)}
+.outline h3.grp{font-size:1.15rem;margin:30px 0 12px}
+.empty{font-size:.85rem;color:var(--muted);padding:0 18px 14px;margin:0}
+
+.refs{margin:0;padding-left:1.4em;max-width:68ch}
+.refs li{margin-bottom:12px}
+.apx{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.apx div{background:var(--card);border:1px dashed var(--accent);border-radius:10px;padding:16px;font-weight:600}
+.apx span{display:block;font-weight:400;color:var(--muted);font-size:.88rem;margin-top:4px}
+footer{max-width:1040px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:.88rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div><b>Đề cương nghiên cứu KHKT 2026</b></div>
+  <button class="theme" id="theme" type="button">Đổi giao diện</button>
+</header>
+
+<div class="hero">
+  <p class="k">Đề cương nghiên cứu khoa học kỹ thuật năm 2026</p>
+  <h1>Phát triển kỹ năng tự học của học sinh Trung học nhờ <mark>ứng dụng AI</mark></h1>
+  <div class="question">Liệu AI có thật sự giúp cá nhân hóa việc học, phù hợp với năng lực từng học sinh?
+    <small>Và làm thế nào để AI hỗ trợ tự học, thay vì trở thành công cụ “làm hộ” bài tập?</small></div>
+</div>
+
+<div class="layout">
+<nav class="toc" aria-label="Mục lục">
+  <a href="#a">A. Mở đầu</a>
+  <a href="#tien-trinh">Tiến trình 8 tuần</a>
+  <a href="#b">B. Nội dung</a>
+  <a href="#c">C. Kết luận, kiến nghị</a>
+  <a href="#d">D. Tài liệu tham khảo</a>
+  <a href="#e">E. Phụ lục</a>
+</nav>
+
+<main>
+<section class="part" id="a">
+  <h2>A. Mở đầu</h2>
+  <p class="sub">Vì sao chọn đề tài, nghiên cứu để làm gì và bằng cách nào.</p>
+
+  <div class="item" id="a1"><h3>1. Lý do chọn đề tài</h3>
+    <p>Trí tuệ nhân tạo (AI) đã trở thành một phần quen thuộc trong đời sống, đặc biệt là giáo dục. Chỉ cần một chiếc điện thoại có internet, học sinh có thể dùng ChatGPT, Gemini, Photomath hay Quizlet để học mọi lúc, mọi nơi: giải bài tập khó, tóm tắt bài học, luyện tập trước kỳ kiểm tra.</p>
+    <p>Tuy nhiên, qua quan sát thực tế, không phải bạn nào cũng biết dùng AI hiệu quả và đúng đắn. Có bạn xem AI như một “gia sư riêng”, học theo đúng năng lực và tốc độ của mình nên tự học chủ động hơn. Cũng có không ít bạn chỉ dùng AI để chép đáp án, dẫn đến phụ thuộc và giảm khả năng tự tư duy.</p>
+    <p>Xuất phát từ những trăn trở đó, nhóm chọn đề tài này, với trọng tâm là hiệu quả của AI trong việc cá nhân hóa học tập, để các bạn học sinh có cái nhìn rõ hơn về cách dùng AI thông minh, chủ động và hiệu quả trong hành trình tự học.</p>
+  </div>
+
+  <div class="item" id="a2"><h3>2. Mục tiêu nghiên cứu</h3>
+    <p>Tìm hiểu thực trạng sử dụng AI trong học tập của học sinh Trung học, đặc biệt là khả năng dùng AI để cá nhân hóa việc học và hỗ trợ tự học. Từ kết quả khảo sát, nhóm xác định những hạn chế học sinh thường gặp, rồi đề xuất và áp dụng một số giải pháp giúp học sinh dùng AI phù hợp với mục tiêu, năng lực và nhu cầu của bản thân, từ đó nâng cao tính chủ động và hiệu quả tự học.</p>
+  </div>
+
+  <div class="item" id="a3"><h3>3. Giả thuyết nghiên cứu</h3>
+    <ul class="hyp">
+      <li><b>Giả thuyết 1</b>Dùng AI giúp học sinh Trung học học theo đúng năng lực và tốc độ cá nhân, từ đó nâng cao hiệu quả tự học.</li>
+      <li><b>Giả thuyết 2</b>Học sinh dùng AI thường xuyên có kỹ năng tự học (tự lập kế hoạch, tự đánh giá, tự tìm tòi kiến thức) tốt hơn học sinh ít hoặc không dùng.</li>
+      <li><b>Giả thuyết 3</b>Dùng AI không đúng cách (lạm dụng, chỉ chép đáp án) có thể làm giảm khả năng tư duy độc lập, trái với mục tiêu phát triển kỹ năng tự học.</li>
+    </ul>
+  </div>
+
+  <div class="item" id="a4"><h3>4. Đối tượng và phạm vi nghiên cứu</h3>
+    <ul class="scope">
+      <li><b>Đối tượng</b> Hiệu quả của việc ứng dụng AI trong cá nhân hóa việc học và phát triển kỹ năng tự học của học sinh Trung học.</li>
+      <li><b>Khách thể</b> Học sinh Trung học từ lớp <span class="blank">…..</span> đến lớp <span class="blank">…..</span> tại trường <span class="blank">...................</span>, đã hoặc chưa từng dùng công cụ AI hỗ trợ học tập.</li>
+      <li><b>Nội dung</b> Các công cụ AI phổ biến (ChatGPT, Gemini, Photomath, Quizlet, Duolingo...) và mức độ ảnh hưởng đến khả năng tự học.</li>
+      <li><b>Không gian</b> Trường <span class="blank">...................</span></li>
+      <li><b>Thời gian</b> Từ tháng <span class="blank">...</span> đến tháng <span class="blank">...</span> năm 2026.</li>
+    </ul>
+  </div>
+
+  <div class="item" id="a5"><h3>5. Phương pháp nghiên cứu</h3>
+    <div class="methods">
+      <div><b>Nghiên cứu lý thuyết</b><p>Thu thập, phân tích, tổng hợp tài liệu về AI trong giáo dục và kỹ năng tự học để xây dựng cơ sở lý luận.</p></div>
+      <div><b>Điều tra bằng bảng hỏi</b><p>Câu hỏi trắc nghiệm và câu hỏi mở để thu thập ý kiến và thực trạng dùng AI của học sinh.</p></div>
+      <div><b>Thống kê toán học</b><p>Tính tỷ lệ phần trăm, điểm trung bình thang đo Likert... để rút ra nhận xét khách quan.</p></div>
+      <div><b>Phân tích, tổng hợp</b><p>Đối chiếu kết quả khảo sát với giả thuyết để kết luận và đề xuất giải pháp.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="tien-trinh">
+  <h2>6. Tiến trình nghiên cứu</h2>
+  <p class="sub">8 tuần, bấm vào từng tuần để xem nội dung thực hiện.</p>
+  <ol class="weeks">
+    <li><details open><summary><span class="w">Tuần 1</span><span class="t">Chuẩn bị đề tài</span></summary><ul><li>Lựa chọn và xác định tên đề tài.</li><li>Xác định lý do chọn đề tài, mục tiêu, giả thuyết nghiên cứu.</li><li>Xác định đối tượng, phạm vi nghiên cứu.</li></ul></details></li>
+    <li><details><summary><span class="w">Tuần 2</span><span class="t">Nghiên cứu lý thuyết</span></summary><ul><li>Tìm đọc, thu thập tài liệu về AI trong giáo dục và kỹ năng tự học.</li><li>Xây dựng cơ sở lý luận cho đề tài.</li></ul></details></li>
+    <li><details><summary><span class="w">Tuần 3</span><span class="t">Thiết kế công cụ khảo sát</span></summary><ul><li>Xây dựng bảng hỏi khảo sát.</li><li>Xin ý kiến giáo viên hướng dẫn để chỉnh sửa, hoàn thiện bảng hỏi.</li></ul></details></li>
+    <li><details><summary><span class="w">Tuần 4</span><span class="t">Tiến hành khảo sát</span></summary><ul><li>Phát bảng hỏi (trực tiếp hoặc qua Google Forms) đến học sinh trong trường.</li><li>Thu thập phiếu khảo sát và dữ liệu trả lời.</li></ul></details></li>
+    <li><details><summary><span class="w">Tuần 5</span><span class="t">Xử lý và phân tích số liệu</span></summary><ul><li>Tổng hợp, thống kê kết quả khảo sát.</li><li>Tính tỷ lệ phần trăm, điểm trung bình các câu hỏi thang đo Likert.</li><li>Vẽ biểu đồ minh họa kết quả.</li></ul></details></li>
+    <li><details><summary><span class="w">Tuần 6</span><span class="t">Xây dựng giải pháp</span></summary><ul><li>Dựa trên kết quả khảo sát, xác định khó khăn, hạn chế cần khắc phục.</li><li>Đề xuất giải pháp giúp học sinh dùng AI hiệu quả, đúng cách trong tự học.</li></ul></details></li>
+    <li><details><summary><span class="w">Tuần 7</span><span class="t">Viết báo cáo nghiên cứu</span></summary><ul><li>Viết các phần: cơ sở lý luận, thực trạng, phân tích kết quả khảo sát.</li><li>Trình bày các giải pháp đề xuất.</li><li>Đối chiếu kết quả với giả thuyết đã đề ra.</li></ul></details></li>
+    <li><details><summary><span class="w">Tuần 8</span><span class="t">Hoàn thiện đề tài</span></summary><ul><li>Rút ra kết luận, hoàn chỉnh các giải pháp đề xuất.</li><li>Chỉnh sửa, hoàn thiện toàn bộ báo cáo.</li></ul></details></li>
+  </ol>
+</section>
+
+<section class="part outline" id="b">
+  <h2>B. Nội dung</h2>
+  <p class="sub">Dàn ý các chương của báo cáo.</p>
+
+  <h3 class="grp">1. Cơ sở lý luận</h3>
+  <details><summary><span class="t">1.1. Trí tuệ nhân tạo và AI trong học tập</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">1.2. Cá nhân hóa việc học bằng AI</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">1.3. Kỹ năng tự học của học sinh Trung học</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">1.4. Vai trò của AI trong phát triển kỹ năng tự học</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">1.5. Mối quan hệ giữa cá nhân hóa việc học bằng AI và kỹ năng tự học</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+
+  <h3 class="grp">2. Thực trạng</h3>
+  <details><summary><span class="t">2.1. Khách thể nghiên cứu</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">2.2. Thực trạng sử dụng AI trong học tập của học sinh</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">2.3. Mức độ biết cách sử dụng AI để cá nhân hóa việc học</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">2.4. Hiệu quả của AI đối với quá trình tự học của học sinh</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">2.5. Những khó khăn, hạn chế khi sử dụng AI trong học tập</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">2.6. Nhu cầu được hướng dẫn sử dụng AI phục vụ cá nhân hóa và tự học</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+
+  <h3 class="grp">3. Các biện pháp ứng dụng AI để cá nhân hóa việc học và phát triển kỹ năng tự học</h3>
+  <details><summary><span class="t">Biện pháp 1. Cẩm nang “Sử dụng AI hỗ trợ tự học” dành cho học sinh</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">Biện pháp 2. “Lộ trình học cá nhân hóa cùng AI”</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">Biện pháp 3. Bộ “Checklist kiểm chứng thông tin AI” trước khi tin dùng</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">Biện pháp 4. Fanpage “AI đồng hành cùng tự học” để duy trì và lan tỏa thói quen dùng AI hiệu quả</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+
+  <h3 class="grp">4. Đánh giá hiệu quả sau khi áp dụng biện pháp</h3>
+  <details><summary><span class="t">Kết quả sau khi áp dụng</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+</section>
+
+<section class="part outline" id="c">
+  <h2>C. Kết luận, kiến nghị</h2>
+  <details><summary><span class="t">1. Kết luận</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+  <details><summary><span class="t">2. Kiến nghị</span></summary><p class="empty">Nội dung sẽ được bổ sung.</p></details>
+</section>
+
+<section class="part" id="d">
+  <h2>D. Tài liệu tham khảo</h2>
+  <ol class="refs">
+    <li>Danh Trung (2021). <i>Biện pháp hình thành kỹ năng tự học cho sinh viên ngành Giáo dục tiểu học</i>, Trường Đại học Đồng Tháp. Tạp chí Khoa học Đại học Đồng Tháp.</li>
+    <li>Tạ Tường Vi (2025). <i>Sinh viên Việt Nam với việc sử dụng trí tuệ nhân tạo: thực trạng, nhận thức và định hướng</i>. Tạp chí Quản lý nhà nước. <a href="https://www.quanlynhanuoc.vn/2025/05/27/sinh-vien-viet-nam-voi-viec-su-dung-tri-tue-nhan-tao-thuc-trang-nhan-thuc-va-dinh-huong/" target="_blank" rel="noopener">Xem bài viết</a></li>
+    <li>Bùi Trọng Tài, Nguyễn Minh Tuấn (2024). <i>Nghiên cứu ảnh hưởng của trí tuệ nhân tạo trong giáo dục tới hoạt động học tập của sinh viên</i>. Tạp chí Giáo dục.</li>
+    <li>Lê Anh Vinh, Trần Mỹ Ngọc (2024). <i>Tác động của Trí tuệ nhân tạo (AI) đối với hệ thống giáo dục toàn cầu và giáo dục Việt Nam</i>. Tạp chí Khoa học Giáo dục Việt Nam, số 5/2024.</li>
+  </ol>
+</section>
+
+<section class="part" id="e">
+  <h2>E. Phụ lục</h2>
+  <div class="apx">
+    <div>Phụ lục 1<span>Phiếu khảo sát số 1</span></div>
+    <div>Phụ lục 2<span>Phiếu khảo sát số 2</span></div>
+    <div>Phụ lục 3<span>Kết quả khảo sát số 1</span></div>
+    <div>Phụ lục 4<span>Kết quả khảo sát số 2</span></div>
+  </div>
+</section>
+</main>
+</div>
+
+<footer>Đề cương nghiên cứu KHKT 2026. Các chỗ tô vàng là thông tin cần điền.</footer>
+
+<script>
+(function(){
+  var root=document.documentElement,btn=document.getElementById('theme');
+  btn.addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark'||
+      (!root.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
+    root.setAttribute('data-theme',dark?'light':'dark');
+  });
+  var links=[].slice.call(document.querySelectorAll('nav.toc a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){links.forEach(function(a){a.classList.remove('on')});
+          var a=map[e.target.id];if(a)a.classList.add('on');}
+      });
+    },{rootMargin:'-20% 0px -70% 0px'});
+    Object.keys(map).forEach(function(id){var s=document.getElementById(id);if(s)io.observe(s)});
+  }
+})();
+</script>
+</body>
+</html>
