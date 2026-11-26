@@ -71,12 +71,13 @@ textarea{width:100%;min-height:80px;border:2px solid var(--line);border-radius:1
 .cl{display:block;font-weight:700;margin:0 0 4px}#cn{width:100%;border:2px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card);margin-bottom:12px}
 .ci{border-top:1px solid var(--line);padding:10px 0}.ci b{color:var(--teal)}.ci small{color:var(--mut);margin-left:8px}.ci p{margin:4px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
 fieldset:has(.o[data-q="q2"]){display:flex;flex-direction:column}.o[data-q="q2"][data-i="3"]{order:-1}
+.ai{border-radius:12px;padding:10px 14px;margin:8px 0;white-space:pre-wrap;overflow-wrap:anywhere}.ai.u{background:var(--you);margin-left:10%}.ai.a{background:var(--tint);margin-right:10%}
 footer{padding:28px 0 44px;color:var(--mut);font-size:.9rem;border-top:1px solid var(--line)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<nav class="t"><div class="w"><a href="#map-s">Sơ đồ tư duy</a><a href="#tk">Thống kê</a><a href="#bp">4 biện pháp</a><a href="#pl1">Phụ lục 1</a><a href="#pl2">Phụ lục 2</a><a href="#bl">Bình luận</a><button class="pill" id="th" type="button">Sáng/tối</button></div></nav>
+<nav class="t"><div class="w"><a href="#map-s">Sơ đồ tư duy</a><a href="#tk">Thống kê</a><a href="#bp">4 biện pháp</a><a href="#pl1">Phụ lục 1</a><a href="#pl2">Phụ lục 2</a><a href="#ai">Hỏi AI</a><a href="#bl">Bình luận</a><button class="pill" id="th" type="button">Sáng/tối</button></div></nav>
 
 <header class="w hero"><div>
 <h1>Tự học cùng AI: dùng sao cho thông minh?</h1>
@@ -108,6 +109,12 @@ footer{padding:28px 0 44px;color:var(--mut);font-size:.9rem;border-top:1px solid
 <form class="card" id="f2"><p class="leg" id="sm2" role="status"></p><div class="sum" id="s2"></div><p class="leg">1 Hoàn toàn không đồng ý, 2 Không đồng ý, 3 Bình thường, 4 Đồng ý, 5 Hoàn toàn đồng ý</p><div class="scroll" id="b2"></div>
 <p><button class="btn" type="button" data-send="f2">Gửi phiếu</button> <button class="btn alt" type="button" data-f="f2" data-a="cmp">So sánh với <span class="n2">152</span> bạn</button> <button class="btn alt" type="button" data-f="f2" data-a="reset">Làm lại</button> <a class="btn alt" href="https://forms.gle/Ljmj4U929tuYoovb8" target="_blank" rel="noopener">Mở bản Google Forms</a></p></form></div></section>
 
+<section class="m" id="ai"><div class="w"><h2>Hỏi AI</h2>
+<p class="sub">Đặt một câu hỏi về việc học, AI sẽ trả lời và gợi ý cách tự làm. AI có thể sai, hãy kiểm tra lại với sách giáo khoa hoặc thầy cô. Câu hỏi được gửi đến Google Gemini để trả lời, vì vậy đừng nhập tên, số điện thoại hay thông tin cá nhân.</p>
+<div class="card"><div class="chips" id="aic"></div><div id="aio" aria-live="polite"></div>
+<form id="aif"><label class="cl" for="aiq">Câu hỏi của bạn</label><textarea id="aiq" maxlength="500" required placeholder="Ví dụ: Làm thế nào để dùng AI lập kế hoạch tự học?"></textarea>
+<p><button class="btn" type="submit">Hỏi AI</button> <span class="leg" id="aist" role="status"></span></p></form></div></div></section>
+
 <section class="m" id="bl"><div class="w"><h2>Bình luận và trò chuyện</h2>
 <p class="sub">Chia sẻ cảm nhận, câu hỏi hoặc cách bạn dùng AI để học. Bình luận hiện ngay cho mọi người cùng thấy.</p>
 <div class="card"><form id="cf"><label class="cl" for="cn">Tên (không bắt buộc)</label><input id="cn" type="text" maxlength="30" autocomplete="nickname" placeholder="Ẩn danh">
@@ -121,6 +128,8 @@ footer{padding:28px 0 44px;color:var(--mut);font-size:.9rem;border-top:1px solid
 <script>
 /* CẤU HÌNH FIREBASE: dán thông số của bạn vào đây (xem hướng dẫn). Để trống thì trang chỉ hiển thị số liệu gốc. */
 window.FIREBASE_CONFIG={apiKey:"AIzaSyDhAlJA08_TURllI7oFqK9Na30HEw1V7FY",authDomain:"khao-sat-6f222.firebaseapp.com",databaseURL:"https://khao-sat-6f222-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"khao-sat-6f222",appId:"1:575043088908:web:012c5531d6f698e90d7429"};
+/* KHÓA GEMINI cho mục Hỏi AI: dán khóa vào giữa hai dấu ngoặc kép */
+window.AI_KEY="AQ.Ab8RN6LSzpq5rWQEYh3KqPeHymlhfm5ZyqhXNlxdNkZshNIGuQ";
 </script>
 <script>
 (function(){
@@ -288,6 +297,29 @@ function loadJS(u,cb){var e=document.createElement('script');e.src=u;e.onload=cb
 if(cfg.databaseURL){var FBU='https://www.gstatic.com/firebasejs/10.12.5/';setSt('Đang kết nối...',false);
   loadJS(FBU+'firebase-app-compat.js',function(){loadJS(FBU+'firebase-database-compat.js',start)})}
 else setSt('Chưa kết nối máy chủ (đang xem số liệu gốc)',false);
+
+/* ===== Hỏi AI (Google Gemini) ===== */
+var AIK=window.AI_KEY||'',AIM=['gemini-3.5-flash-lite','gemini-3.1-flash-lite','gemini-2.5-flash'],aiH=[],aiLast=0;
+var AIS='Bạn là trợ lý học tập thân thiện cho học sinh THCS (lớp 6 đến lớp 9) ở Việt Nam. Trả lời bằng tiếng Việt, ngắn gọn, dễ hiểu, có ví dụ gần gũi. Khuyến khích học sinh tự suy nghĩ: với bài tập thì gợi ý từng bước, không chỉ đưa đáp án. Nhắc học sinh kiểm tra lại thông tin quan trọng với sách giáo khoa hoặc thầy cô vì AI có thể sai. Không trả lời nội dung không phù hợp với học sinh.';
+function aiAdd(role,t){var d=document.createElement('div');d.className='ai '+role;d.textContent=t;$('#aio').appendChild(d);return d}
+function aiCall(i,body){return fetch('https://generativelanguage.googleapis.com/v1beta/models/'+AIM[i]+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':AIK},body:JSON.stringify(body)})
+  .then(function(r){return r.json().catch(function(){return {}}).then(function(j){return {s:r.status,j:j}})})
+  .then(function(x){if(x.s===404&&i+1<AIM.length)return aiCall(i+1,body);if(x.s!==200)throw x;
+    var c=x.j.candidates&&x.j.candidates[0],p=c&&c.content&&c.content.parts,t=p?p.map(function(a){return a.text||''}).join(''):'';
+    if(!t)throw {s:0};return t})}
+['Làm thế nào để hỏi AI cho hiệu quả?','Cách lập kế hoạch tự học một tuần với AI','Làm sao biết câu trả lời của AI đúng hay sai?'].forEach(function(q){
+  var b=document.createElement('button');b.type='button';b.textContent=q;b.onclick=function(){$('#aiq').value=q;$('#aiq').focus()};$('#aic').appendChild(b)});
+$('#aif').onsubmit=function(e){e.preventDefault();var inp=$('#aiq'),q=inp.value.trim().slice(0,500),st=$('#aist');
+  if(!q)return;
+  if(!AIK){st.textContent='Mục Hỏi AI chưa được cài khóa API.';return}
+  if(Date.now()-aiLast<5000){st.textContent='Bạn hỏi hơi nhanh, đợi vài giây nhé.';return}
+  try{var day=new Date().toISOString().slice(0,10),o=JSON.parse(localStorage.getItem('ai_cnt')||'{}'),n=o.d===day?o.n:0;
+    if(n>=20){st.textContent='Hôm nay bạn đã hỏi 20 câu rồi, mai hỏi tiếp nhé.';return}
+    localStorage.setItem('ai_cnt',JSON.stringify({d:day,n:n+1}))}catch(x){}
+  aiLast=Date.now();inp.value='';st.textContent='';aiAdd('u',q);var w=aiAdd('a','AI đang suy nghĩ...');
+  aiH.push({role:'user',parts:[{text:q}]});aiH=aiH.slice(-7);
+  aiCall(0,{systemInstruction:{parts:[{text:AIS}]},contents:aiH}).then(function(t){t=t.replace(/\*\*/g,'');w.textContent=t;aiH.push({role:'model',parts:[{text:t}]})},
+    function(x){aiH.pop();w.textContent=x&&x.s===429?'AI đang bận hoặc hết lượt miễn phí lúc này, bạn thử lại sau ít phút nhé.':x&&(x.s===400||x.s===403)?'Chưa dùng được khóa API (có thể sai khóa, bị giới hạn hoặc chưa bật). Hãy báo cho người làm trang để kiểm tra nhé.':'Chưa trả lời được, bạn thử lại sau nhé.'})};
 
 })();
 </script>
